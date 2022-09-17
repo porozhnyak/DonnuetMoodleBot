@@ -127,7 +127,7 @@ def get_lesson():
             print("Бот закончил работу")
 
         if today == 2: #Вторник
-            # time.sleep(6300) # Секунд ожидания, если нет 1 пары (Пара 5400 сек.)
+            time.sleep(6300) # Секунд ожидания, если нет 1 пары (Пара 5400 сек.)
             a = 0
             b = 0
             c = 0
@@ -465,28 +465,12 @@ def get_lesson():
 
     course_req(today)
 
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
 def main():
 
     global login
     login = login()
     prof = profile()
     
-
-
     soup = BeautifulSoup(prof.text, 'html.parser')
     unlog = soup.find('span', class_ = 'login') #Переменная отвечающая за вход в систему, если есть, то бот не вошёл в систему
 

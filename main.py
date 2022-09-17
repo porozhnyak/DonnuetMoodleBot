@@ -1,4 +1,3 @@
-from email import header
 import requests
 from fake_useragent import UserAgent
 import time
@@ -47,8 +46,8 @@ def login():
     data = {
         'anchor': '',
         'logintoken': soup.find('input', {"name": "logintoken"}).get("value"),
-        "username" : "10.rdo",
-        "password" : "Stud_2021",
+        "username" : user_login,
+        "password" : user_password,
     }
     
     time.sleep(5)

@@ -3,6 +3,8 @@ from fake_useragent import UserAgent
 import time
 from bs4 import BeautifulSoup
 import datetime
+import os
+
 
 try:
     from config_act import user_login, user_password
@@ -79,7 +81,6 @@ def profile():
 
 
 def get_lesson():
-    tourism = "https://distant.donnuet.ru/course/view.php?id=1589"
 
     today = datetime.datetime.today().isoweekday()
     
@@ -227,7 +228,6 @@ def get_lesson():
             print("Бот закончил работу")       
 
         if today == 3: #Среда
-            # time.sleep(6300) # Секунд ожидания, если нет 1 пары (Пара 5400 сек.)
             a = 0
             b = 0
             c = 0
@@ -344,6 +344,9 @@ def get_lesson():
             print("Следующая пара через 1,5 часа и 15 минут")
 
             time.sleep(6300)
+
+            login()
+            profile()
 
             while c < 9: # Третья пара
                 try:
@@ -466,6 +469,8 @@ def get_lesson():
     course_req(today)
 
 def main():
+    shutdown = int(input("Нужно ли выключать ПК после пар 1-Да, 0-Нет"))
+
 
     global login
     login = login()
@@ -489,6 +494,13 @@ def main():
 
     global get_lesson
     get_lesson = get_lesson()
+
+    time.sleep(10)
+
+    if shutdown == 1:
+        os.system('shutdown -s')
+    else:
+        pass
     
     
 

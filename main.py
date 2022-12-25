@@ -469,7 +469,7 @@ def get_lesson():
     course_req(today)
 
 def main():
-    shutdown = int(input("Нужно ли выключать ПК после пар 1-Да, 0-Нет"))
+
 
 
     global login
@@ -497,11 +497,6 @@ def main():
 
     time.sleep(10)
 
-    if shutdown == 1:
-        os.system('shutdown -s')
-    else:
-        pass
-    
     
 
 if __name__ == "__main__":

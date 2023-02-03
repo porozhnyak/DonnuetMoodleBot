@@ -1,4 +1,4 @@
-from MondayScriptTimes import CreatSheduleTimes
+from scriptshedule import CreatSheduleTimes
 import datetime
 
 

@@ -7,11 +7,6 @@ def article():
     print(id)
 
 
-#with open("data_lesson.json", "w") as file:
-    #json.dump(shedule, file, indent=4, ensure_ascii=False)
-
-
-
 class CreatSheduleTimes:
 
     def monday():

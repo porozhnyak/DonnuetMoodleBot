@@ -6,7 +6,7 @@ def article():
     id = int(str(datetime.datetime.today().isoweekday())+str(datetime.datetime.today().strftime('%H%M')))
     print(id)
 
-
+# Добавлен новый класс
 class CreatSheduleTimes:
 
     def monday():

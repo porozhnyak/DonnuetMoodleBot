@@ -5,18 +5,26 @@ from aiogram.utils import executor
 import response
 from config_act import user_login, user_password
 from credit.TOKEN import TOKEN
+from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.dispatcher import FSMContext
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
+
+storage = MemoryStorage()
 
 bot = Bot(token=TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher(bot, storage=storage)
 
 user_states = {}
+user_credentials = {}
 # user_id = message.from_user.id
+
+class Form(StatesGroup):
+    login = State()
+    password = State()
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-
-
     # dp.message_handlers.clear()
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(types.KeyboardButton(text="Да"))
@@ -24,7 +32,49 @@ async def start(message: types.Message):
     # Запускаем цикл в асинхронной функции
 
     await message.answer("Привет! Я бот для площадки moodle.")
-    await message.answer(response.get_profile(user_login, user_password), reply_markup=keyboard)
+    await asyncio.sleep(2)
+    await message.answer("Что бы начать работу давай авторизуемся.\nВведи свой логин от Moodle")
+
+    await Form.login.set()
+
+    # await message.answer(response.get_profile(user_login, user_password), reply_markup=keyboard)
+
+@dp.message_handler(state=Form.login)
+async def get_login(message: types.Message, state: FSMContext):
+    user_id = str(message.from_user.id)
+
+    async with state.proxy() as data:
+        data['login'] = message.text
+
+    await message.answer("Теперь введи свой пароль:")
+
+    await Form.next()
+
+
+@dp.message_handler(state=Form.password)
+async def get_password(message: types.Message, state: FSMContext):
+    
+    user_id = str(message.from_user.id)
+
+    async with state.proxy() as data:
+        data['password'] = message.text
+
+
+    user_login = data['login']
+    user_password = data['password']
+
+    # Perform login and get profile
+    response_message = response.get_profile(user_login, user_password)
+
+    # Create keyboard
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(types.KeyboardButton(text="Да"))
+    keyboard.add(types.KeyboardButton(text="Нет"))
+
+    await message.answer(response_message, reply_markup=keyboard)
+    await state.finish()
+    
+    # await dp.register_message_handler(get_password, state="waiting_for_password", user_id=user_id)
 
 
 gets = False

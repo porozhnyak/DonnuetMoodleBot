@@ -26,9 +26,9 @@ class Form(StatesGroup):
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     # dp.message_handlers.clear()
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Да"))
-    keyboard.add(types.KeyboardButton(text="Нет"))
+    # keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    # keyboard.add(types.KeyboardButton(text="Да"))
+    # keyboard.add(types.KeyboardButton(text="Нет"))
     # Запускаем цикл в асинхронной функции
 
     await message.answer("Привет! Я бот для площадки moodle.")
@@ -64,7 +64,7 @@ async def get_password(message: types.Message, state: FSMContext):
     user_password = data['password']
 
     # Perform login and get profile
-    response_message = response.get_profile(user_login, user_password)
+    response_message =  await response.get_profile(user_login, user_password)
 
     # Create keyboard
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -133,7 +133,7 @@ async def some_loop(chat_id):
     while gets:
         counter += 1
         # Выводим определенные сообщения
-        await bot.send_message(chat_id, response.resless())
+        await bot.send_message(chat_id, await response.resless())
         await asyncio.sleep(30)  # Ждем 30 секунд перед отправкой следующего сообщения
 
 if __name__ == '__main__':

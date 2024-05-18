@@ -92,11 +92,11 @@ async def handle_response(message: types.Message):
 
         await asyncio.sleep(2)
 
-
+        chat_id = message.chat.id
         global gets
         gets = True
         # Запускаем цикл в асинхронной функции
-        await some_loop(message.chat.id)
+        await some_loop(chat_id)
 
     if message.text == 'Нет':
         await message.answer("Ну нет, так нет.", reply_markup=None)

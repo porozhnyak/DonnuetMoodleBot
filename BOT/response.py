@@ -7,6 +7,10 @@ import GetLessonsLink
 # from config_act import user_login, user_passwor
 import aiohttp
 
+import asyncio
+
+# user_login = "10.rdo"
+# user_password = "Stud_2021"
 
 URL = "https://distant.donnuet.ru" 
 log_url = URL+"/login/index.php"
@@ -82,15 +86,15 @@ async def get_profile(user_login, user_password):
             
 async def resless(): #запросы на уроки
     try:
-        # today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
-        # TimeNow = datetime.datetime.today().strftime('%H:%M')
 
 
         link = await GetLessonsLink.GetLessonsLink(today, TimeNow)
-        res =  session2.get(link, headers=headers)
-
         if link is None:
-            pass
+            print("Ссылка None")
+
+        res =  session2.get(link, headers=headers)
+        if res is None:
+            print("Запрос none")
         else: 
             res
 
@@ -102,8 +106,8 @@ async def resless(): #запросы на уроки
  
         return f"Бот-аккаунт {name_user} на курсе : {name_course} "
         # return name_user
-    except:
-        pass
+    except Exception as e:
+        return f"Ошибка запроса урока {e}"
     # except Exception as e:
     #     if e is not None:
     #         return f'Ошибка: {e}'
@@ -114,9 +118,17 @@ async def resless(): #запросы на уроки
 
 
 
+global today, TimeNow
+today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
+TimeNow = datetime.datetime.today().strftime('%H:%M')
 
-# def req_answ():
-#     get_profile(user_login, user_password)
-#     print(resless())
+# async def req_answ():
 
-# req_answ()
+
+#     while True:
+#         await get_profile(user_login, user_password)
+#         print( await resless())
+
+#         time.sleep(5)
+
+# asyncio.run(req_answ())

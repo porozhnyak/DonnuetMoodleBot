@@ -16,6 +16,7 @@ async def GetLessonsLink(today, TimeNow):
     # num = Lessons_lib.items()
 
     try:
+        print(today, TimeNow)
         return LessonsLink.Lessons_lib[str(today)][TimeNow]
     except KeyError:
         pass

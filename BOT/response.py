@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 import datetime
 import GetLessonsLink
 # from config_act import user_login, user_passwor
+import aiohttp
 
 
 URL = "https://distant.donnuet.ru" 
@@ -23,10 +24,10 @@ headers = {
 session = requests.Session()
 session2 = requests.Session()
 
-today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
-TimeNow = datetime.datetime.today().strftime('%H:%M')
+# today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
+# TimeNow = datetime.datetime.today().strftime('%H:%M')
 
-def login(user_login, user_password):
+async def login(user_login, user_password):
     session.headers.update(headers)
 
     res = session.get(log_url)
@@ -44,7 +45,7 @@ def login(user_login, user_password):
 
  
 
-def profile():
+async def profile():
 
     cookies_dict = [
         {"domain": key.domain, "name": key.name, "path": key.path, "value": key.value}
@@ -63,12 +64,12 @@ def profile():
 
     return profile_response
 
-def get_profile(user_login, user_password):
+async def get_profile(user_login, user_password):
     try:
         
-        session = login(user_login, user_password)
+        session = await login(user_login, user_password)
         # prof = profile()
-        profile_response = profile()
+        profile_response = await profile()
         
         soup = BeautifulSoup(profile_response.text, 'html.parser')
         unlog = soup.find('span', class_ = 'login') #Переменная отвечающая за вход в систему, если есть, то бот не вошёл в систему
@@ -79,13 +80,13 @@ def get_profile(user_login, user_password):
     except Exception as e:
         return f"Ошибка логина: {e}"
             
-def resless(): #запросы на уроки
+async def resless(): #запросы на уроки
     try:
         # today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
         # TimeNow = datetime.datetime.today().strftime('%H:%M')
 
 
-        link = GetLessonsLink.GetLessonsLink(today, TimeNow)
+        link = await GetLessonsLink.GetLessonsLink(today, TimeNow)
         res =  session2.get(link, headers=headers)
 
         if link is None:

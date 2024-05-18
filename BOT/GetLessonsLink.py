@@ -2,13 +2,14 @@
 import datetime
 import time
 import LessonsLink 
+import asyncio
 
 
 # today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
 # TimeNow = datetime.datetime.today().strftime('%H:%M')
 
 
-def GetLessonsLink(today, TimeNow):
+async def GetLessonsLink(today, TimeNow):
 
     # today = 4
     # TimeNow = "02:36"

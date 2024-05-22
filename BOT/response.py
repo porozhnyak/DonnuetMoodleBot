@@ -9,6 +9,9 @@ import aiohttp
 
 import asyncio
 
+# user_login = "10.rdo"
+# user_password = "Stud_2021"
+
 URL = "https://distant.donnuet.ru" 
 log_url = URL+"/login/index.php"
 profile_link = "https://distant.donnuet.ru/my/"

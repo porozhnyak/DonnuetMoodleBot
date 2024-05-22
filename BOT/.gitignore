@@ -1,0 +1,5 @@
+# Ignore config.py file
+credit/config_adm.py
+response.py
+credit/users.db
+

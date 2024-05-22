@@ -3,22 +3,18 @@ import datetime
 import time
 import LessonsLink 
 import asyncio
-
-
-# today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
-# TimeNow = datetime.datetime.today().strftime('%H:%M')
+import logging
 
 
 async def GetLessonsLink(today, TimeNow):
-
-    # today = 4
-    # TimeNow = "02:36"
-    # num = Lessons_lib.items()
-
     try:
-        print(today, TimeNow)
-        return LessonsLink.Lessons_lib[str(today)][TimeNow]
+        print(f"День: {today}, Время: {TimeNow}")
+        return LessonsLink.Lessons_lib[today][TimeNow]
     except KeyError:
-        pass
+        None
+# while True:
+#     today = str(datetime.datetime.today().isoweekday())# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
+#     TimeNow = datetime.datetime.today().strftime('%H:%M')
 
-# print(GetLessonsLink(today, TimeNow))
+#     asyncio.run(GetLessonsLink(today, TimeNow))
+#     time.sleep(10)

@@ -1,13 +1,13 @@
 import asyncio
 from aiogram import Bot, Dispatcher, types
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
 from aiogram.utils import executor
-import response
-# from config_act import user_login, user_password
-from credit.TOKEN import TOKEN
+from credit.config_adm import TOKEN
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher import FSMContext
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+import asyncres
+from buttons import buttons
+
 
 
 storage = MemoryStorage()
@@ -25,11 +25,6 @@ class Form(StatesGroup):
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    # dp.message_handlers.clear()
-    # keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    # keyboard.add(types.KeyboardButton(text="Да"))
-    # keyboard.add(types.KeyboardButton(text="Нет"))
-    # Запускаем цикл в асинхронной функции
 
     await message.answer("Привет! Я бот для площадки moodle.")
     await asyncio.sleep(2)
@@ -64,14 +59,9 @@ async def get_password(message: types.Message, state: FSMContext):
     user_password = data['password']
 
     # Perform login and get profile
-    response_message =  await response.get_profile(user_login, user_password)
+    response_message =  await asyncres.get_profile(user_login, user_password)
 
-    # Create keyboard
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Да"))
-    keyboard.add(types.KeyboardButton(text="Нет"))
-
-    await message.answer(response_message, reply_markup=keyboard)
+    await message.answer(response_message, reply_markup=buttons.consent())
     await state.finish()
     
     # await dp.register_message_handler(get_password, state="waiting_for_password", user_id=user_id)
@@ -82,13 +72,10 @@ gets = False
 @dp.message_handler(lambda message: message.text in ['Да', 'Нет'])
 async def handle_response(message: types.Message):
 
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="СТОП"))
-
     if message.text == 'Да':
         await message.answer("Хорошо, начинаю работу.")
         await asyncio.sleep(1)
-        await message.answer("Если произойдёт ошибка, то нажми кнопку 'СТОП'.", reply_markup=keyboard)
+        await message.answer("Если произойдёт ошибка, то нажми кнопку 'СТОП'.", reply_markup=buttons.stop())
 
         await asyncio.sleep(2)
 
@@ -105,25 +92,20 @@ async def handle_response(message: types.Message):
 
 @dp.message_handler(lambda message: message.text in ['СТОП'])
 async def stop_res(message: types.Message):
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Старт"))
 
     if message.text == "СТОП":
         global gets
         gets = False
-        await message.answer("Бот приостановлен", reply_markup=keyboard)
+        await message.answer("Бот приостановлен", reply_markup=buttons.start())
 
 
 @dp.message_handler(lambda message: message.text in ['Старт'])
 async def stop_res(message: types.Message):
 
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="СТОП"))
-
     if message.text == "Старт":
         global gets
         gets = True
-        await message.answer("Работа бота возоблена", reply_markup=keyboard)
+        await message.answer("Работа бота возоблена", reply_markup=buttons.stop())
         await some_loop(message.chat.id)
 
 
@@ -133,7 +115,7 @@ async def some_loop(chat_id):
     while gets:
         counter += 1
         # Выводим определенные сообщения
-        await bot.send_message(chat_id, await response.resless())
+        await bot.send_message(chat_id, await asyncres.ressles())
         await asyncio.sleep(30)  # Ждем 30 секунд перед отправкой следующего сообщения
 
 if __name__ == '__main__':

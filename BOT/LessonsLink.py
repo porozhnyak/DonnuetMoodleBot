@@ -10,6 +10,10 @@ servisologia = "https://distant.donnuet.ru/course/view.php?id=5322"
 rabota_predpriatia = "https://distant.donnuet.ru/course/view.php?id=6547"
 
 import datetime
+import time
+
+
+global today, TimeNow
 
 today = str(datetime.datetime.today().isoweekday())# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
 TimeNow = str(datetime.datetime.today().strftime('%H:%M'))
@@ -114,3 +118,10 @@ Lessons_lib = {
         TimeNow :estetica,
     }
 }
+
+
+# while True:
+    # today = str(datetime.datetime.today().isoweekday())# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
+    # TimeNow = datetime.datetime.today().strftime('%H:%M')
+    # print(Lessons_lib[today][TimeNow])
+    # time.sleep(10)

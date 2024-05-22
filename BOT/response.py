@@ -9,8 +9,8 @@ import aiohttp
 
 import asyncio
 
-# user_login = "10.rdo"
-# user_password = "Stud_2021"
+user_login = "10.rdo"
+user_password = "Stud_2021"
 
 URL = "https://distant.donnuet.ru" 
 log_url = URL+"/login/index.php"
@@ -118,13 +118,13 @@ async def resless(): #запросы на уроки
 
 
 
-global today, TimeNow
-today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
-TimeNow = datetime.datetime.today().strftime('%H:%M')
 
 # async def req_answ():
 
 
+#     global today, TimeNow   
+#     today = datetime.datetime.today().isoweekday()# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
+#     TimeNow = datetime.datetime.today().strftime('%H:%M')
 #     while True:
 #         await get_profile(user_login, user_password)
 #         print( await resless())

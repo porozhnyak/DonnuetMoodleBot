@@ -13,11 +13,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('response')
 
-URL = "https://distant.donnuet.ru" 
-log_url = URL+"/login/index.php"
-profile_link = "https://distant.donnuet.ru/my/"
-
-
 #Заголовки
 ua = UserAgent()
 rand_ua = ua.random

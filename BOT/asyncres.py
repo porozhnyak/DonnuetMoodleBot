@@ -83,7 +83,6 @@ async def get_profile(user_login, user_password):
 
 async def ressles(user_login, user_password):
     try:
-
         today = str(datetime.datetime.today().isoweekday())# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
         TimeNow = str(datetime.datetime.today().strftime('%H:%M'))
         lessons_link = await GetLessonsLink.GetLessonsLink(today, TimeNow)

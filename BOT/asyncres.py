@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 import datetime
 import GetLessonsLink
-from credit.config_adm import user_login, user_password, log_url, profile_link
+from credit.config import log_url, profile_link
 import asyncio
 import datetime
 import time
@@ -70,7 +70,7 @@ async def get_profile(user_login, user_password):
                     logger.error("User is not logged in")
                     return "Ошибка логина: Пользователь не вошел в систему"
                 log = soup.find('span', class_="usertext mr-1").text
-                return f"Твой аккаунт {log}?"
+                return f"{log}"
             else:
                 logger.error("Failed to fetch profile data")
                 return "Ошибка логина: Не удалось получить данные профиля"

@@ -22,3 +22,11 @@ def start():
     keyboard.add(types.KeyboardButton(text="Старт"))
     return keyboard
 
+def authorization(name):
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    keyboard.add(types.KeyboardButton(text=f"{name}"))
+    keyboard.add(types.KeyboardButton(text="Другой профиль"))
+    return keyboard
+
+
+

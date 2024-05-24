@@ -12,10 +12,16 @@ async def init_db():
         await db.commit()
 
 async def save_user(user_id, login, password, profile_name):
-    async with aiosqlite.connect('BOT/credit/moodlebot.db') as db:
-        await db.execute('''INSERT INTO users (user_id, login, password, profile_name) VALUES (?, ?, ?, ?)''',
-                        (user_id, login, password, profile_name))
-        await db.commit()
+    user = await get_user(user_id)
+    chek_user = user[1]
+
+    if chek_user == login:
+        pass
+    else:
+        async with aiosqlite.connect('BOT/credit/moodlebot.db') as db:
+            await db.execute('''INSERT INTO users (user_id, login, password, profile_name) VALUES (?, ?, ?, ?)''',
+                            (user_id, login, password, profile_name))
+            await db.commit()
 
 async def get_user(user_id):
     async with aiosqlite.connect('BOT/credit/moodlebot.db') as db:

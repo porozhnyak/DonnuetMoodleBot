@@ -19,7 +19,7 @@ def stop():
 
 def start():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Старт"))
+    keyboard.add(types.KeyboardButton(text="Продолжить активность"))
     return keyboard
 
 def authorization(name):
@@ -27,6 +27,8 @@ def authorization(name):
     keyboard.add(types.KeyboardButton(text=f"{name}"))
     keyboard.add(types.KeyboardButton(text="Другой профиль"))
     return keyboard
+
+
 
 
 

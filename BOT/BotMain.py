@@ -39,7 +39,7 @@ async def start(message: types.Message, state: FSMContext):
     user = await database.get_user(user_id)
 
     if user:
-        login, password, profile_name = user[1], user[2], user[3]
+        login, password, profile_name, is_active = user[1], user[2], user[3], user[4]
         await message.answer(f"Привет! Выбери действие: ", reply_markup=buttons.authorization(profile_name))
         # код в разработке
     else:
@@ -81,9 +81,8 @@ async def get_password(message: types.Message, state: FSMContext):
 
     await Form.verification.set()
 
-gets = False
 
-# @dp.message_handler(lambda message: message.text in ['Да', 'Нет'])
+
 @dp.message_handler(state=Form.verification)
 async def handle_response(message: types.Message, state: FSMContext):
 
@@ -95,27 +94,27 @@ async def handle_response(message: types.Message, state: FSMContext):
     if message.text == 'Да':
         
         await database.save_user(user_id, user_login, user_password, profile_name)
+        await database.update_user_active_status(user_id, 1)
         await message.answer("Хорошо, начинаю работу.")
         await asyncio.sleep(1)
         await message.answer("Если произойдёт ошибка, то нажми кнопку 'СТОП'.", reply_markup=buttons.stop())
 
         chat_id = message.chat.id
-        global gets
-        gets = True
-        # Запускаем цикл в асинхронной функции
-        await some_loop(chat_id)
+
+        # await some_loop(chat_id)
+        await database.update_user_active_status(user_id, is_active=1)
+        asyncio.create_task(some_loop(user_id))
 
     if message.text == 'Нет':
         await message.answer("Возможно произошла ошибка авторизации. \nПовтори попытку командой /start", reply_markup=None)
     
 
-
 @dp.message_handler(lambda message: message.text in ['СТОП'])
 async def stop_res(message: types.Message):
 
     if message.text == "СТОП":
-        global gets
-        gets = False
+        user_id=message.from_user.id
+        await database.update_user_active_status(user_id, 0)
         await message.answer("Бот приостановлен", reply_markup=buttons.start())
 
 
@@ -123,27 +122,30 @@ async def stop_res(message: types.Message):
 async def stop_res(message: types.Message):
 
     if message.text == "Старт":
-        global gets
-        gets = True
+        user_id = str(message.from_user.id)
+        # Устанавливаем статус is_active в True при возобновлении цикла
+        await database.update_user_active_status(user_id, is_active=1)
+
         await message.answer("Работа бота возоблена", reply_markup=buttons.stop())
         await some_loop(message.chat.id)
 
 
 async def some_loop(user_id):
-    global gets
     counter = 0
-    while gets:
-        counter += 1
-        # Получаем учетные данные пользователя из базы данных
+    while True:
         user = await database.get_user(user_id)
         if user:
-            user_login, user_password = user[1], user[2]
-            # Выводим определенные сообщения
-            await bot.send_message(user_id, await asyncres.ressles(user_login, user_password))
+            is_active = user[4]  # Индекс 4 соответствует столбцу is_active в базе данных
+            if is_active == 1:
+                counter += 1
+                user_login, user_password = user[1], user[2]
+                await bot.send_message(user_id, await asyncres.ressles(user_login, user_password))
+                await asyncio.sleep(30)  # Ждем 30 секунд перед отправкой следующего сообщения
+            else:
+                break  # Прерываем цикл, если is_active равно 0
         else:
             await bot.send_message(user_id, "Не удалось найти данные пользователя.")
-        
-        await asyncio.sleep(30)  # Ждем 30 секунд перед отправкой следующего сообщения
+            break  # Прерываем цикл, если не удалось найти пользователя
 
 
 if __name__ == '__main__':

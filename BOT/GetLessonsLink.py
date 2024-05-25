@@ -11,7 +11,7 @@ async def GetLessonsLink(today, TimeNow):
         print(f"День: {today}, Время: {TimeNow}")
         return LessonsLink.Lessons_lib[today][TimeNow]
     except KeyError:
-        None
+        pass
 # while True:
 #     today = str(datetime.datetime.today().isoweekday())# Выводит номер дня недели (1-Понедельник ... 7-Воскресенье)
 #     TimeNow = datetime.datetime.today().strftime('%H:%M')

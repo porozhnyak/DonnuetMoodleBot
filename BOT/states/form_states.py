@@ -5,3 +5,4 @@ class Form(StatesGroup):
     login = State()
     password = State()
     verification = State()
+    mainmenu= State()

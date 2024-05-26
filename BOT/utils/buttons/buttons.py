@@ -20,6 +20,7 @@ def stop():
 def start():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.add(types.KeyboardButton(text="Продолжить активность"))
+    keyboard.add(types.KeyboardButton(text="Меню"))
     return keyboard
 
 def authorization(name):
@@ -27,6 +28,18 @@ def authorization(name):
     keyboard.add(types.KeyboardButton(text=f"{name}"))
     keyboard.add(types.KeyboardButton(text="Другой профиль"))
     return keyboard
+
+def Mainmenu():
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    keyboard.add(types.KeyboardButton(text="Оценки 📖"))
+    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    keyboard.add(types.KeyboardButton(text="Донат 💸"))
+    # keyboard.add(types.KeyboardButton(text="FAQ"))
+    return keyboard
+
+
+
+
 
 
 

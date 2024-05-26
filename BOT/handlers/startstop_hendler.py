@@ -3,6 +3,7 @@ import database
 from utils.some_loop import some_loop
 from utils.buttons import buttons
 import asyncio
+from states.form_states import Form
 
 async def startstop(message: types.Message):
 
@@ -19,3 +20,12 @@ async def startstop(message: types.Message):
 
         await message.answer("Работа бота возоблена", reply_markup=buttons.stop())
         asyncio.create_task(some_loop(user_id))
+
+    if message.text == "Меню":
+        user_id = str(message.from_user.id)
+        user = await database.get_user(user_id)
+        profile_name = user[3]
+
+
+        await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
+        await Form.mainmenu.set()

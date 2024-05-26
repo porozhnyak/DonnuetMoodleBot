@@ -20,15 +20,12 @@ async def get_password(message: types.Message, state: FSMContext):
         data['profile_name'] = profile_name
         data['user_id'] = user_id
 
-    user = await database.get_user(user_id)
-    chek_login = user[2]
+    # user = await database.get_user(user_id)
+    # chek_login = user[2]
 
-    if message.text == chek_login:
-        await message.answer("Такой аккаунт уже зарегистрирован. Хотите продолжить?", reply_markup=buttons.consent())
-        await Form.verification.set()
-    else:
-        await message.answer(f"Твой аккаунт {profile_name}?", reply_markup=buttons.consent())
-        await Form.verification.set()
+    await message.answer(f"Твой аккаунт {profile_name}?", reply_markup=buttons.consent())
+    await Form.verification.set()
+
 
 async def get_login(message: types.Message, state: FSMContext):
     user_id = str(message.from_user.id)
@@ -37,7 +34,7 @@ async def get_login(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['login'] = message.text
     await message.answer("Теперь введи свой пароль:")
-    await Form.next()
+    await Form.password.set()
 
 async def confirm(message: types.Message, state: FSMContext):
 
@@ -46,20 +43,24 @@ async def confirm(message: types.Message, state: FSMContext):
         user_id = data.get('user_id')
         user_login = data['login']
         user_password = data['password']
+
     if message.text == 'Да':
         
         await database.save_user(user_id, user_login, user_password, profile_name)
-        await database.update_user_active_status(user_id, 1)
-        await message.answer("Хорошо, начинаю работу.")
+        # await database.update_user_active_status(user_id, 0)
+        await message.answer("Профиль зарегистрирован.")
+
         await asyncio.sleep(1)
-        await message.answer("Если произойдёт ошибка, то нажми кнопку 'СТОП'.", reply_markup=buttons.stop())
+        await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
 
-        chat_id = message.chat.id
+        await Form.mainmenu.set()
 
-        # await some_loop(chat_id)
-        await database.update_user_active_status(user_id, is_active=1)
-        asyncio.create_task(some_loop(user_id))
+        # chat_id = message.chat.id
 
-        await activity.waiting.set()
+        # # await some_loop(chat_id)
+        # await database.update_user_active_status(user_id, is_active=1)
+        # asyncio.create_task(some_loop(user_id))
+
+        # await activity.waiting.set()
     if message.text == 'Нет':
         await message.answer("Возможно произошла ошибка авторизации. \nПовтори попытку командой /start", reply_markup=None)

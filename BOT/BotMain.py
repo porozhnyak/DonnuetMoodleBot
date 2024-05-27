@@ -5,12 +5,14 @@ from aiogram.dispatcher.filters import Text
 import database
 from states.form_states import Form
 from states.activity_states import activity
+from states.adminform import AdminForm
 
 from handlers.profile_selection import profile_selection
 from handlers.startstop_hendler import startstop
 from handlers.reg_hendler import get_password, get_login, confirm
 from handlers.start_hendler import start
-from handlers.mainmenu_hendler import handle_main_menu
+from handlers.mainmenu_hendler import handle_main_menu, handle_admin_commands
+
 
 async def on_startup(dp):
     # Инициализация базы данных при запуске бота
@@ -19,6 +21,8 @@ async def on_startup(dp):
 dp.register_message_handler(start, commands=['start'], state="*")
 
 dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Поддержать 💸"], ignore_case=True), state=Form.mainmenu)
+
+dp.register_message_handler(handle_admin_commands, Text(equals=["Оценки 📖","Назначить старосту 👤", "Расписание 📅", "Активность 🖊", "Поддержать 💸"],ignore_case=True), state=AdminForm.adminmenu)
 
 dp.register_message_handler(profile_selection)
 

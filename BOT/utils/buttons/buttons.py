@@ -43,6 +43,25 @@ def donation_button():
     keyboard = types.InlineKeyboardMarkup().add(button)
     return keyboard
 
+def leadermenu():
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    keyboard.add(types.KeyboardButton(text="Оценки 📖"))
+    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    keyboard.add(types.KeyboardButton(text="Расписание 📅"))
+    keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
+    # keyboard.add(types.KeyboardButton(text="FAQ"))
+    return keyboard
+
+def adminmenu():
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    keyboard.add(types.KeyboardButton(text="Оценки 📖"))
+    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    keyboard.add(types.KeyboardButton(text="Расписание 📅"))
+    keyboard.add(types.KeyboardButton(text="Назначить старосту 👤"))
+    keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
+    # keyboard.add(types.KeyboardButton(text="FAQ"))
+    return keyboard
+
 
 
 

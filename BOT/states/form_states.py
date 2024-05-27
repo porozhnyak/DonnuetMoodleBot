@@ -6,3 +6,4 @@ class Form(StatesGroup):
     password = State()
     verification = State()
     mainmenu= State()
+    adminmenu = State()

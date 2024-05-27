@@ -8,31 +8,20 @@ import aiohttp
 from utils import asyncres
 import logging
 import jinja2
+from parse_utils import getpage
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('response')
 
-
-async def get_page(log, url):
-    try:
-        async with aiohttp.ClientSession(cookies=log) as session:
-            async with session.get(url) as profile_response:
-                if profile_response.status != 200:
-                    logger.error(f"Error fetching profile page: {profile_response.status}")
-                    return None
-
-                return await profile_response.text()
-    except Exception as e:
-        logger.error(f"Error in profile function: {e}")
-        return None
-
 async def all_grades_screen(user_login, user_password, output_file='grades_table.png'):
 
     url = "https://distant.donnuet.ru/grade/report/overview/index.php"
 
+    temp_file = 'temp_page.html'
+
     log = await asyncres.login(user_login, user_password)
-    html = await get_page(log, url)
+    html = await getpage.get_page(log, url)
     
     with open('temp_page.html', 'w', encoding='utf-8') as f:
         f.write(html)
@@ -65,6 +54,9 @@ async def all_grades_screen(user_login, user_password, output_file='grades_table
     else:
         result = 'Не удалось найти таблицу с оценками на странице.'
 
+
+    if os.path.exists(temp_file):
+        os.remove(temp_file)
     return result
 
 # asyncio.run(all_grades_screen(user_login, user_password))

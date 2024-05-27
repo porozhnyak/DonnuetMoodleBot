@@ -45,15 +45,22 @@ async def confirm(message: types.Message, state: FSMContext):
         user_password = data['password']
 
     if message.text == 'Да':
-        
-        await database.save_user(user_id, user_login, user_password, profile_name)
-        # await database.update_user_active_status(user_id, 0)
-        await message.answer("Профиль зарегистрирован.")
 
-        await asyncio.sleep(1)
-        await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
+        if int(user_id) == 953420910:
+            await message.answer("Вы определены как администратор.", reply_markup=buttons.adminmenu())
+            await database.save_user(str(user_id), user_login, user_password, profile_name)
+            await database.update_user_admin_status(user_id, 1)
 
-        await Form.mainmenu.set()
+            await Form.adminmenu.set()
+        else:
+            await database.save_user(user_id, user_login, user_password, profile_name)
+            # await database.update_user_active_status(user_id, 0)
+            await message.answer("Профиль зарегистрирован.")
+
+            await asyncio.sleep(1)
+            await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
+
+            await Form.mainmenu.set()
 
         # chat_id = message.chat.id
 

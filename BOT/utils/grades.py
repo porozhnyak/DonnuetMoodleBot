@@ -9,7 +9,6 @@ from utils import asyncres
 import logging
 import jinja2
 
-
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('response')

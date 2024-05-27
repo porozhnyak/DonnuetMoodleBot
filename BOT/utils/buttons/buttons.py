@@ -33,8 +33,14 @@ def Mainmenu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     keyboard.add(types.KeyboardButton(text="Оценки 📖"))
     keyboard.add(types.KeyboardButton(text="Активность 🖊"))
-    keyboard.add(types.KeyboardButton(text="Донат 💸"))
+    keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
     # keyboard.add(types.KeyboardButton(text="FAQ"))
+    return keyboard
+
+def donation_button():
+    # Создание инлайн-кнопки с URL
+    button = types.InlineKeyboardButton(text="Поддержать", url="https://www.tinkoff.ru/rm/rogovoy.dmitriy20/O3lyY1103")
+    keyboard = types.InlineKeyboardMarkup().add(button)
     return keyboard
 
 

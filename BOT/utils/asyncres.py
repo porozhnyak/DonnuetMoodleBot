@@ -6,7 +6,6 @@ import GetLessonsLink
 from credit.config import log_url, profile_link
 import asyncio
 import datetime
-import time
 import logging
 
 # Настройка логирования

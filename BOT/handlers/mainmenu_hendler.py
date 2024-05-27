@@ -7,8 +7,9 @@ from utils.some_loop import some_loop
 from utils.buttons import buttons
 from states.activity_states import activity
 from aiogram.dispatcher.filters import Text
-from handlers.grades_handler import handle_grades
 from utils.grades import all_grades_screen
+import os
+from aiogram.types import BotCommand, InputFile
 
 
 # В файле menu_handlers.py
@@ -26,12 +27,27 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
     profile_name = user[3]
     if user:
         command = message.text
-        if command == "Донат 💸":
-            await message.answer("Спасибо за вашу поддержку! Вот информация о донате: ")
+        if command == "Поддержать 💸":
+            await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
+
             await Form.mainmenu.set()
         elif command == "Оценки 📖":
-            await handle_grades(message, state)
-            await message.answer(f"Все оценки пользователя {profile_name}")
+            # await handle_grades(message, state)
+            await message.answer(f"Загружаю таблицу оценок пользователя: {profile_name}")
+
+            ser_id = str(message.from_user.id)
+            user = await database.get_user(user_id)  # Предполагается, что есть функция для получения пользователя из БД
+            if user:
+                login, password = user[1], user[2]
+
+                result = await all_grades_screen(login, password)
+                if result.startswith('Таблица с оценками успешно сохранена'):
+                    file = InputFile('grades_table.png')
+                    await message.answer_photo(file)
+                    os.remove('grades_table.png')
+                else:
+                    await message.answer(result)
+                    
             await Form.mainmenu.set()
 
         elif command == "Активность 🖊":

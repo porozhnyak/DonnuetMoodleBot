@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            width: 720px; /* задаем ширину страницы */
+            height: 1280px; /* задаем высоту страницы */
+            margin: 0; /* убираем отступы */
+            padding: 0; /* убираем внутренние отступы */
+        }
+        table {
+            width: 100%; /* делаем таблицу растягиваемой по ширине */
+        }
+    </style>
+</head>
+<body>
+    <!-- Ваша таблица с оценками -->
+    {{ table_html | safe }}
+</body>
+</html>

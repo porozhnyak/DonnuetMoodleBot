@@ -8,7 +8,7 @@ import aiohttp
 from utils import asyncres
 import logging
 import jinja2
-from parse_utils import getpage
+from utils.parse_utils.getpage import get_page
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -21,7 +21,7 @@ async def all_grades_screen(user_login, user_password, output_file='grades_table
     temp_file = 'temp_page.html'
 
     log = await asyncres.login(user_login, user_password)
-    html = await getpage.get_page(log, url)
+    html = await get_page(log, url)
     
     with open('temp_page.html', 'w', encoding='utf-8') as f:
         f.write(html)

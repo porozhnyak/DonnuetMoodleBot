@@ -4,7 +4,7 @@ import database
 import asyncio
 from aiogram.dispatcher import FSMContext
 from utils.buttons import buttons
-
+from states.adminform import AdminForm
 
 async def profile_selection(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
@@ -15,10 +15,10 @@ async def profile_selection(message: types.Message, state: FSMContext):
 
             if user[6] == 1:
                 await message.answer(f"Вы вошли как Администратор: {profile_name}", reply_markup=buttons.adminmenu())
-                await Form.adminmenu.set()
+                await AdminForm.adminmenu.set()
             elif user[5] == 1:
                 await message.answer(f"Вы вошли как Староста: {profile_name}", reply_markup=buttons.leadermenu())
-                await Form.adminmenu.set()
+                await AdminForm.adminmenu.set()
             else:
                 await message.answer(f"Вы вошли как {profile_name}", reply_markup=buttons.Mainmenu())
                 await asyncio.sleep(1)

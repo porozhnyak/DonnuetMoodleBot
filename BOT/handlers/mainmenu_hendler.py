@@ -43,7 +43,7 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
             await message.answer(f"Загружаю таблицу оценок пользователя: {profile_name}")
 
             user_id = str(message.from_user.id)
-            user = await database.get_user(user_id)  # Предполагается, что есть функция для получения пользователя из БД
+            user = await database.get_user(user_id)  
             if user:
                 login, password = user[1], user[2]
 
@@ -66,7 +66,7 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
                 await message.answer("Бот статус не активен. Нажмите 'Старт' для начала активности.", reply_markup=buttons.start())
                 await activity.waiting.set()
     else:
-        await message.answer("Не удалось найти ваши данные для входа. Пожалуйста, авторизуйтесь заново.")
+        await message.answer("Не удалось найти ваши данные для входа. Пожалуйста, авторизуйтесь заново. /start ")
 
 
 
@@ -79,45 +79,44 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
     profile_name = user[3]
 
     if command == "Оценки 📖":
-            asyncio.sleep(2)
-            await message.answer(f"Загружаю таблицу оценок пользователя: {profile_name}")
+        asyncio.sleep(2)
+        await message.answer(f"Загружаю таблицу оценок пользователя: {profile_name}")
 
-            user_id = str(message.from_user.id)
-            user = await database.get_user(user_id)  # Предполагается, что есть функция для получения пользователя из БД
-            if user:
-                login, password = user[1], user[2]
+        user_id = str(message.from_user.id)
+        user = await database.get_user(user_id)  # Предполагается, что есть функция для получения пользователя из БД
+        if user:
+            login, password = user[1], user[2]
 
-                result = await all_grades_screen(login, password)
-                if result.startswith('Таблица с оценками успешно сохранена'):
-                    file = InputFile('grades_table.png')
-                    await message.answer_photo(file)
-                    os.remove('grades_table.png')
-                else:
-                    await message.answer(result)
-                    
-            await AdminForm.adminmenu.set()
-    elif command == "Активность 🖊":
-            is_active = user[4]
-            if is_active == 1:
-                await message.answer("Бот сейчас активен. Нажмите 'СТОП' для остановки активности.", reply_markup=buttons.stop())
-                asyncio.create_task(some_loop(user_id))
+            result = await all_grades_screen(login, password)
+            if result.startswith('Таблица с оценками успешно сохранена'):
+                file = InputFile('grades_table.png')
+                await message.answer_photo(file)
+                os.remove('grades_table.png')
             else:
-                await message.answer("Бот статус не активен. Нажмите 'Старт' для начала активности.", reply_markup=buttons.start())
-                await activity.waiting.set()
+                await message.answer(result)
+        await AdminForm.adminmenu.set()
+    elif command == "Активность 🖊":
+        is_active = user[4]
+        if is_active == 1:
+            await message.answer("Бот сейчас активен. Нажмите 'СТОП' для остановки активности.", reply_markup=buttons.stop())
+            asyncio.create_task(some_loop(user_id))
+        else:
+            await message.answer("Бот статус не активен. Нажмите 'Старт' для начала активности.", reply_markup=buttons.start())
+            await activity.waiting.set()
 
     elif command == "Расписание 📅":
         # Логика для второй команды администратора
-        await message.answer("Выполнена команда 2.")
+        await message.answer("Функция в разработке.")
+        await AdminForm.adminmenu.set()
 
     elif command == "Назначить старосту 👤":
         # Логика для второй команды администратора
         await message.answer("Функция в разработке.")
+        await AdminForm.adminmenu.set()
 
     elif command == "Поддержать 💸":
         await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
-        await Form.mainmenu.set()
+        await AdminForm.adminmenu.set()
     
-
-    await AdminForm.adminmenu.set()
 
 

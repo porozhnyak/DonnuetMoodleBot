@@ -7,6 +7,7 @@ import database
 import asyncio
 from states.activity_states import activity
 from utils.some_loop import some_loop
+from states.adminform import AdminForm
 
 async def get_password(message: types.Message, state: FSMContext):
     
@@ -51,7 +52,7 @@ async def confirm(message: types.Message, state: FSMContext):
             await database.save_user(str(user_id), user_login, user_password, profile_name)
             await database.update_user_admin_status(user_id, 1)
 
-            await Form.adminmenu.set()
+            await AdminForm.adminmenu.set()
         else:
             await database.save_user(user_id, user_login, user_password, profile_name)
             # await database.update_user_active_status(user_id, 0)

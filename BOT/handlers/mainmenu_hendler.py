@@ -39,7 +39,7 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
         elif command == "Оценки 📖":
             # await handle_grades(message, state)
 
-            asyncio.sleep(2)
+            await asyncio.sleep(2)
             await message.answer(f"Загружаю таблицу оценок пользователя: {profile_name}")
 
             user_id = str(message.from_user.id)

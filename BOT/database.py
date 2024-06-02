@@ -30,7 +30,7 @@ async def save_user(user_id, login, password, profile_name):
         
         if user is None or user[1] != login:
             async with aiosqlite.connect('BOT/credit/moodlebot.db') as db:
-                await db.execute('''INSERT INTO users (user_id, login, password, profile_name, group_name) 
+                await db.execute('''INSERT OR REPLACE INTO users (user_id, login, password, profile_name, group_name) 
                                     VALUES (?, ?, ?, ?, ?)''',
                                 (user_id, login, password, profile_name, group_name))
                 await db.commit()

@@ -20,8 +20,8 @@ async def start(message: types.Message, state: FSMContext):
         # код в разработке
     else:
         await message.answer("Привет! Я бот для площадки moodle.")
-        await asyncio.sleep(2)
+        await asyncio.sleep(1)
         await message.answer("Что бы начать работу давай авторизуемся.")
-        await asyncio.sleep(2)
-        await message.answer("Введи свой логин от Moodle")
+        await asyncio.sleep(1)
+        await message.answer("Введи свой логин от Moodle. ")
         await Form.login.set()

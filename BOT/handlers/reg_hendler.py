@@ -62,13 +62,5 @@ async def confirm(message: types.Message, state: FSMContext):
             await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
 
             await Form.mainmenu.set()
-
-        # chat_id = message.chat.id
-
-        # # await some_loop(chat_id)
-        # await database.update_user_active_status(user_id, is_active=1)
-        # asyncio.create_task(some_loop(user_id))
-
-        # await activity.waiting.set()
     if message.text == 'Нет':
         await message.answer("Возможно произошла ошибка авторизации. \nПовтори попытку командой /start", reply_markup=None)

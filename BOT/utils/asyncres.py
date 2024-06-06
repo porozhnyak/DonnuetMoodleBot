@@ -105,17 +105,3 @@ async def ressles(user_login, user_password):
     except Exception as e:
         logger.error(f"Error in ressles function: {e}")
         return f"Ошибка запроса урока: {e}"
-
-# # Тест использования функции ressles
-# async def main():
-
-#     while True:
-#         lesson_info = await ressles(user_login, user_password)
-#         print(lesson_info)
-
-#         time.sleep(10)
-
-# # Запуск основного события
-# if __name__ == "__main__":
-#     import asyncio
-#     asyncio.run(main())

@@ -4,3 +4,4 @@ class AdminForm(StatesGroup):
     adminmenu = State()
     choose_leader = State()
     waiting_name_group = State()
+    MainShedule = State()

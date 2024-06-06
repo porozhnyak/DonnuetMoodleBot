@@ -11,6 +11,7 @@ from aiogram.dispatcher.filters import Text
 from utils.grades import all_grades_screen
 import os
 from aiogram.types import BotCommand, InputFile
+from utils.gtlesgrp import parse_page
 
 
 # В файле menu_handlers.py
@@ -106,9 +107,20 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
 
     elif command == "Расписание 📅":
         # Логика для второй команды администратора
-        await message.answer("Функция в разработке.")
-        await AdminForm.adminmenu.set()
 
+        user_login = user[1]
+        user_password = user[2]
+        group = user[7]
+        await message.answer("Функция в разработке, но вот все ваши предметы.")
+        path = f"lessons_data/{group}.json"
+
+        if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
+            await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+        else:
+            await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
+            await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+
+        await AdminForm.adminmenu.set()
     elif command == "Назначить старосту 👤":
         # Логика для второй команды администратора
         await message.answer("Функция в разработке.")

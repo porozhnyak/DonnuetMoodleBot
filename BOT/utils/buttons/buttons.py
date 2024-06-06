@@ -8,8 +8,10 @@ def create_profile_button():
 
 def consent():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Да"))
-    keyboard.add(types.KeyboardButton(text="Нет"))
+    keyboard.row(
+        keyboard.add(types.KeyboardButton(text="Да")),
+        keyboard.add(types.KeyboardButton(text="Нет"))
+    )
     return keyboard
 
 def stop():
@@ -30,9 +32,11 @@ def authorization(name):
     return keyboard
 
 def Mainmenu():
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Оценки 📖"))
-    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
+    keyboard.row(
+        keyboard.add(types.KeyboardButton(text="Оценки 📖")),
+        keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    )
     keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
     # keyboard.add(types.KeyboardButton(text="FAQ"))
     return keyboard
@@ -44,9 +48,11 @@ def donation_button():
     return keyboard
 
 def leadermenu():
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Оценки 📖"))
-    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
+    keyboard.row(
+        keyboard.add(types.KeyboardButton(text="Оценки 📖")),
+        keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    )
     keyboard.add(types.KeyboardButton(text="Расписание 📅"))
     keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
     # keyboard.add(types.KeyboardButton(text="FAQ"))
@@ -54,13 +60,35 @@ def leadermenu():
 
 def adminmenu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
-    keyboard.add(types.KeyboardButton(text="Оценки 📖"))
-    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
-    keyboard.add(types.KeyboardButton(text="Расписание 📅"))
-    keyboard.add(types.KeyboardButton(text="Назначить старосту 👤"))
+    keyboard.row(
+        types.KeyboardButton(text="Оценки 📖"),
+        types.KeyboardButton(text="Активность 🖊")
+    )
+    keyboard.row(
+        types.KeyboardButton(text="Расписание 📅"),
+        types.KeyboardButton(text="Редактировать старост 👤")
+    )
     keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
     # keyboard.add(types.KeyboardButton(text="FAQ"))
     return keyboard
+
+
+import json
+
+def lessons_inline_buttons(file_path):
+    with open(file_path, 'r', encoding='utf-8') as file:
+        lessons = json.load(file)
+
+    button_list = []
+    for title, link in lessons.items():
+        button = types.InlineKeyboardButton(title, url=link)
+        button_list.append(button)
+
+    inline_kb = types.InlineKeyboardMarkup(row_width=2)  # Устанавливаем row_width
+    inline_kb.add(*button_list)  # Добавляем кнопки сразу
+
+    return inline_kb
+
 
 
 

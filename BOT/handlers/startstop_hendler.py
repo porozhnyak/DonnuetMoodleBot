@@ -4,6 +4,7 @@ from utils.some_loop import some_loop
 from utils.buttons import buttons
 import asyncio
 from states.form_states import Form
+from states.adminform import AdminForm
 
 async def startstop(message: types.Message):
 
@@ -28,4 +29,10 @@ async def startstop(message: types.Message):
 
 
         await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
-        await Form.mainmenu.set()
+
+        if user[6] == 1:
+            await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.adminmenu())
+            await AdminForm.adminmenu.set()
+        else:
+            await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
+            await Form.mainmenu.set()

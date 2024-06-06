@@ -20,7 +20,7 @@ async def on_startup(dp):
 
 dp.register_message_handler(start, commands=['start'], state="*")
 
-dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Поддержать 💸"], ignore_case=True), state=Form.mainmenu)
+dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Расписание 📅", "Поддержать 💸"], ignore_case=True), state=Form.mainmenu)
 
 dp.register_message_handler(handle_admin_commands, Text(equals=["Оценки 📖", "Назначить старосту 👤", "Расписание 📅", "Активность 🖊", "Поддержать 💸"],ignore_case=True), state=AdminForm.adminmenu)
 

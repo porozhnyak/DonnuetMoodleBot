@@ -37,6 +37,23 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
             await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
 
             await Form.mainmenu.set()
+
+        elif command == "Расписание 📅":
+            # Логика для второй команды администратора
+
+            user_login = user[1]
+            user_password = user[2]
+            group = user[7]
+            await message.answer("Функция в разработке, но вот все ваши предметы.")
+            path = f"lessons_data/{group}.json"
+
+            if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
+                await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+            else:
+                await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
+                await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+            await Form.mainmenu.set()
+            
         elif command == "Оценки 📖":
             # await handle_grades(message, state)
 
@@ -123,7 +140,10 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
         await AdminForm.adminmenu.set()
     elif command == "Назначить старосту 👤":
         # Логика для второй команды администратора
-        await message.answer("Функция в разработке.")
+
+        groups = await database.get_unique_groups()
+        
+        await message.answer("Функция в разработке. Но вот все имеющиеся группы.", reply_markup=buttons.all_groups(groups))
         await AdminForm.adminmenu.set()
 
     elif command == "Поддержать 💸":

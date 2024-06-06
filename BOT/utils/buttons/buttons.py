@@ -66,12 +66,11 @@ def adminmenu():
     )
     keyboard.row(
         types.KeyboardButton(text="Расписание 📅"),
-        types.KeyboardButton(text="Редактировать старост 👤")
+        types.KeyboardButton(text="Назначить старосту 👤")
     )
     keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
     # keyboard.add(types.KeyboardButton(text="FAQ"))
     return keyboard
-
 
 import json
 
@@ -88,6 +87,14 @@ def lessons_inline_buttons(file_path):
     inline_kb.add(*button_list)  # Добавляем кнопки сразу
 
     return inline_kb
+
+def all_groups(groups):
+    keyboard = types.InlineKeyboardMarkup(row_width=4)
+    for group in groups:
+        button_text = f"{group}"
+        button = types.InlineKeyboardButton(button_text, callback_data="ignore")
+        keyboard.insert(button)
+    return keyboard
 
 
 

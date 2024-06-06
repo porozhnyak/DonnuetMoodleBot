@@ -97,6 +97,21 @@ async def update_user_admin_status(user_id, is_admin):
     except Exception as e:
         logger.error(f"Error updating user admin status {user_id}: {e}")
 
+async def get_unique_groups():
+    try:
+        async with aiosqlite.connect('BOT/credit/moodlebot.db') as db:
+            cursor = await db.execute('''SELECT DISTINCT group_name FROM users''')
+            groups = await cursor.fetchall()
+            unique_groups = [group[0] for group in groups]
+            logger.info(f"Unique groups found: {unique_groups}")
+            return unique_groups
+    except Exception as e:
+        logger.error(f"Error getting unique groups: {e}")
+        return []
+    
+
+    
+
 # # Пример использования функций
 # async def main():
 #     await init_db()

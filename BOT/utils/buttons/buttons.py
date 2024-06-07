@@ -30,13 +30,16 @@ def authorization(name):
     return keyboard
 
 def Mainmenu():
-    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
-
-    keyboard.add(types.KeyboardButton(text="Оценки 📖")),
-    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
-    keyboard.add(types.KeyboardButton(text="Курсы 📅"))
-    keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
-    # keyboard.add(types.KeyboardButton(text="FAQ"))
+    keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+    keyboard.row(
+        types.KeyboardButton(text="Оценки 📖"),
+        types.KeyboardButton(text="Активность 🖊")
+    )
+    keyboard.row(
+        types.KeyboardButton(text="Курсы 📅"),
+        types.KeyboardButton(text="Поддержать 💸")
+    )
+    keyboard.add(types.KeyboardButton(text="Помощь 🆘"))
     return keyboard
 
 def donation_button():
@@ -47,10 +50,14 @@ def donation_button():
 
 def leadermenu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
-    keyboard.add(types.KeyboardButton(text="Оценки 📖")),
-    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
-    keyboard.add(types.KeyboardButton(text="Расписание 📅"))
-    keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
+    keyboard.row(
+        types.KeyboardButton(text="Оценки 📖"),
+        types.KeyboardButton(text="Активность 🖊")
+    )
+    keyboard.row(
+        types.KeyboardButton(text="Расписание 📅"),
+        types.KeyboardButton(text="Поддержать 💸")
+    )
     # keyboard.add(types.KeyboardButton(text="FAQ"))
     return keyboard
 

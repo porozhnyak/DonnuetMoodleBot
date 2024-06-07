@@ -41,7 +41,7 @@ async def on_startup(dp):
     await database.init_db()
 
 dp.register_message_handler(start, commands=['start'], state="*")
-dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Курсы 📅", "Поддержать 💸"], ignore_case=True), state=Form.mainmenu)
+dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Курсы 📅", "Поддержать 💸", "Помощь 🆘"], ignore_case=True), state=Form.mainmenu)
 dp.register_message_handler(handle_admin_commands, Text(equals=["Оценки 📖", "Назначить старосту 👤", "Расписание 📅", "Активность 🖊", "Поддержать 💸"],ignore_case=True), state=AdminForm.adminmenu)
 dp.register_message_handler(profile_selection)
 dp.register_message_handler(get_login, state=Form.login)

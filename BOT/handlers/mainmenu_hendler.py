@@ -102,6 +102,10 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
             else:
                 await message.answer("Бот статус не активен. Нажмите 'Старт' для начала активности.", reply_markup=buttons.start())
                 await activity.waiting.set()
+
+        elif command == "Помощь 🆘":
+            await message.answer("Поддержка: @porozhnyack")
+            await Form.mainmenu.set()
     else:
         await message.answer("Не удалось найти ваши данные для входа. Пожалуйста, авторизуйтесь заново. /start ")
 

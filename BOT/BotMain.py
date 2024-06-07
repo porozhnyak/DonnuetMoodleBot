@@ -14,25 +14,6 @@ from handlers.reg_hendler import get_password, get_login, confirm
 from handlers.start_hendler import start
 from handlers.mainmenu_hendler import handle_main_menu, handle_admin_commands
 
-import sys
-sys.setrecursionlimit(2000)
-
-
-import logging
-
-# Настройка логгера для записи в файл
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s %(name)s %(levelname)s:%(message)s',
-    handlers=[
-        logging.FileHandler("app.log", mode='w'),  # Перезаписываем лог при каждом запуске
-        logging.StreamHandler()
-    ]
-)
-
-def get_logger(name: str):
-    return logging.getLogger(name)
-
 
 dp.middleware.setup(LoggingMiddleware())
 

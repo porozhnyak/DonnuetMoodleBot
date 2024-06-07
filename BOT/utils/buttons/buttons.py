@@ -6,7 +6,7 @@ def create_profile_button():
     keyboard.add(button)
     return keyboard
 
-def consent():
+async def consent():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
     keyboard.row(
         keyboard.add(types.KeyboardButton(text="Да")),

@@ -9,23 +9,56 @@ from states.activity_states import activity
 from utils.some_loop import some_loop
 from states.adminform import AdminForm
 
+import sys
+sys.setrecursionlimit(2000)
+
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(name)s %(levelname)s:%(message)s',
+    handlers=[
+        logging.FileHandler("app.log", mode='w'),  # Перезаписываем лог при каждом запуске
+        logging.StreamHandler()
+    ]
+)
+
+def get_logger(name: str):
+    return logging.getLogger(name)
+
+
 async def get_password(message: types.Message, state: FSMContext):
-    
-    user_id = str(message.from_user.id)
-    async with state.proxy() as data:
-        data['password'] = message.text
-    user_login = data['login']
-    user_password = data['password']
-    profile_name = await asyncres.get_profile(user_login, user_password)
-    async with state.proxy() as data:
-        data['profile_name'] = profile_name
-        data['user_id'] = user_id
+    try:
+        user_id = str(message.from_user.id)
+        logger.info(f"User {user_id} is attempting to set a password.")
+        
+        async with state.proxy() as data:
+            data['password'] = message.text
+            user_login = data['login']
+            user_password = data['password']
+            logger.info(f"Retrieved login: {user_login} and password: {user_password} from state proxy.")
 
-    # user = await database.get_user(user_id)
-    # chek_login = user[2]
+        profile_name = await asyncres.get_profile(user_login, user_password)
+        logger.info(f"Profile name retrieved for user {user_id}: {profile_name}")
+        
+        async with state.proxy() as data:
+            data['profile_name'] = profile_name
+            data['user_id'] = user_id
+            logger.info(f"State updated with profile_name: {profile_name} and user_id: {user_id}")
 
-    await message.answer(f"Твой аккаунт {profile_name}?", reply_markup=buttons.consent())
-    await Form.verification.set()
+        await message.answer(f"Твой аккаунт {profile_name}?", reply_markup= await buttons.consent())
+        await Form.verification.set()
+        logger.info(f"User {user_id} moved to verification state.")
+
+    except RecursionError as e:
+        await message.answer("Произошла ошибка: превышена глубина рекурсии.")
+        logger.error("RecursionError: Превышена глубина рекурсии.", exc_info=True)
+    except Exception as e:
+        await message.answer("Произошла неизвестная ошибка.")
+        logger.error("Неизвестная ошибка.", exc_info=True)
 
 
 async def get_login(message: types.Message, state: FSMContext):

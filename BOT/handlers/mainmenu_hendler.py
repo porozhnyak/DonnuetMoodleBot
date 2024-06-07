@@ -77,6 +77,8 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
 
         elif command == "Активность 🖊":
             is_active = user[4]
+            await message.answer("Функция в разработке. Ошибки не критические.")
+            await asyncio.sleep(2)
             if is_active == 1:
                 await message.answer("Бот сейчас активен. Нажмите 'СТОП' для остановки активности.", reply_markup=buttons.stop())
                 asyncio.create_task(some_loop(user_id))

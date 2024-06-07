@@ -48,10 +48,10 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
             path = f"lessons_data/{group}.json"
 
             if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
-                await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
             else:
                 await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
-                await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
             await Form.mainmenu.set()
             
         elif command == "Оценки 📖":
@@ -132,10 +132,10 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
         path = f"lessons_data/{group}.json"
 
         if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
-            await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+            await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
         else:
             await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
-            await message.answer(f"Предметы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+            await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
 
         await AdminForm.adminmenu.set()
     elif command == "Назначить старосту 👤":
@@ -143,7 +143,7 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
 
         groups = await database.get_unique_groups()
         
-        await message.answer("Функция в разработке. Но вот все имеющиеся группы.", reply_markup=buttons.all_groups(groups))
+        await message.answer("Функция в разработке. Но вот все зарегистрироанные группы.", reply_markup=buttons.all_groups(groups))
         await AdminForm.adminmenu.set()
 
     elif command == "Поддержать 💸":

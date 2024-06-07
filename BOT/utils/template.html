@@ -6,12 +6,39 @@
     <style>
         body {
             width: 720px; /* задаем ширину страницы */
-            height: 1280px; /* задаем высоту страницы */
+            height: 1080px; /* задаем высоту страницы */
             margin: 0; /* убираем отступы */
             padding: 0; /* убираем внутренние отступы */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* задаем шрифт для текста */
+            background-color: #f9f9f9; /* задаем фоновый цвет страницы */
         }
         table {
             width: 100%; /* делаем таблицу растягиваемой по ширине */
+            border-collapse: collapse; /* убираем промежутки между ячейками */
+            margin: 20px 0; /* добавляем отступ сверху и снизу */
+            background-color: #fff; /* задаем фоновый цвет таблицы */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* добавляем тень таблице */
+        }
+        th, td {
+            border: 1px solid #ddd; /* добавляем границу к ячейкам */
+            padding: 12px 15px; /* добавляем отступ внутри ячеек */
+            text-align: left; /* выравнивание текста по левому краю */
+        }
+        th {
+            background-color: #f2f2f2; /* добавляем фоновый цвет к заголовкам */
+            font-weight: bold; /* делаем текст заголовков жирным */
+            text-transform: uppercase; /* делаем текст заголовков верхним регистром */
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9; /* добавляем фоновый цвет к четным строкам */
+        }
+        tr:hover {
+            background-color: #f1f1f1; /* добавляем фоновый цвет при наведении */
+        }
+        h1 {
+            text-align: center; /* выравниваем заголовок по центру */
+            color: #333; /* задаем цвет текста заголовка */
+            margin-top: 20px; /* добавляем отступ сверху */
         }
     </style>
 </head>

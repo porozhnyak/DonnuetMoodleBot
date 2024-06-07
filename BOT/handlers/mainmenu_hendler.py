@@ -75,6 +75,23 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
                     
             await Form.mainmenu.set()
 
+        elif command == "Курсы 📅":
+        # Логика для второй команды администратора
+
+            user_login = user[1]
+            user_password = user[2]
+            group = user[7]
+            await message.answer("Функция в разработке, но вот все ваши предметы.")
+            path = f"lessons_data/{group}.json"
+
+            if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
+                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+            else:
+                await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
+                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+
+            await Form.mainmenu.set()
+
         elif command == "Активность 🖊":
             is_active = user[4]
             await message.answer("Функция в разработке. Ошибки не критические.")

@@ -8,10 +8,8 @@ def create_profile_button():
 
 async def consent():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    keyboard.row(
-        keyboard.add(types.KeyboardButton(text="Да")),
-        keyboard.add(types.KeyboardButton(text="Нет"))
-    )
+    keyboard.add(types.KeyboardButton(text="Да")),
+    keyboard.add(types.KeyboardButton(text="Нет"))
     return keyboard
 
 def stop():
@@ -33,10 +31,10 @@ def authorization(name):
 
 def Mainmenu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
-    keyboard.row(
-        keyboard.add(types.KeyboardButton(text="Оценки 📖")),
-        keyboard.add(types.KeyboardButton(text="Активность 🖊"))
-    )
+
+    keyboard.add(types.KeyboardButton(text="Оценки 📖")),
+    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
+    keyboard.add(types.KeyboardButton(text="Курсы 📅"))
     keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
     # keyboard.add(types.KeyboardButton(text="FAQ"))
     return keyboard
@@ -49,10 +47,8 @@ def donation_button():
 
 def leadermenu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True, row_width=2)
-    keyboard.row(
-        keyboard.add(types.KeyboardButton(text="Оценки 📖")),
-        keyboard.add(types.KeyboardButton(text="Активность 🖊"))
-    )
+    keyboard.add(types.KeyboardButton(text="Оценки 📖")),
+    keyboard.add(types.KeyboardButton(text="Активность 🖊"))
     keyboard.add(types.KeyboardButton(text="Расписание 📅"))
     keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
     # keyboard.add(types.KeyboardButton(text="FAQ"))

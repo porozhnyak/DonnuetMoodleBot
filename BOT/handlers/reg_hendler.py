@@ -8,6 +8,7 @@ import asyncio
 from states.activity_states import activity
 from utils.some_loop import some_loop
 from states.adminform import AdminForm
+from credit.config import agreement
 
 import sys
 sys.setrecursionlimit(2000)
@@ -49,7 +50,12 @@ async def get_password(message: types.Message, state: FSMContext):
             data['user_id'] = user_id
             logger.info(f"State updated with profile_name: {profile_name} and user_id: {user_id}")
 
+        await message.answer(f"Нажимая *Да*, я автоматически принимаю [Пользовательское соглашение]({agreement})", parse_mode='Markdown')
+
+
         await message.answer(f"Твой аккаунт {profile_name}?", reply_markup= await buttons.consent())
+
+        
         await Form.verification.set()
         logger.info(f"User {user_id} moved to verification state.")
 

@@ -1,6 +1,7 @@
 from aiogram.utils import executor
 from credit.config import TOKEN, dp, storage
 from aiogram.dispatcher.filters import Text
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 
 import database
 from states.form_states import Form
@@ -33,12 +34,14 @@ def get_logger(name: str):
     return logging.getLogger(name)
 
 
+dp.middleware.setup(LoggingMiddleware())
+
 async def on_startup(dp):
     # Инициализация базы данных при запуске бота
     await database.init_db()
 
 dp.register_message_handler(start, commands=['start'], state="*")
-dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Расписание 📅", "Поддержать 💸"], ignore_case=True), state=Form.mainmenu)
+dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Курсы 📅", "Поддержать 💸"], ignore_case=True), state=Form.mainmenu)
 dp.register_message_handler(handle_admin_commands, Text(equals=["Оценки 📖", "Назначить старосту 👤", "Расписание 📅", "Активность 🖊", "Поддержать 💸"],ignore_case=True), state=AdminForm.adminmenu)
 dp.register_message_handler(profile_selection)
 dp.register_message_handler(get_login, state=Form.login)

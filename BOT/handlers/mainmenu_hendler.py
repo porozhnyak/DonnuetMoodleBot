@@ -158,6 +158,9 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
         await message.answer("Меню в разработке.")
         # await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
         await AdminForm.adminmenu.set()
+
+    else:
+        await message.answer("Не удалось найти ваши данные для входа. Пожалуйста, авторизуйтесь заново. /start ")
     
 
 

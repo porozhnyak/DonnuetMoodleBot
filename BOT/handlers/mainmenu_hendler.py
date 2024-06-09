@@ -21,8 +21,8 @@ from aiogram.dispatcher.filters import Text
 # from credit.config import DONATE_LINK
 import database
 
+from credit.config import admmenu_txt_btns, menu_txt_btns
 
-# dp.register_message_handler(Text(equals=["Оценки 📖", "Активность 🖊", "Донат 💸"], ignore_case=True), state=Form.mainmenu)
 async def handle_main_menu(message: types.Message, state: FSMContext):
     user_id = message.from_user.id
     user = await database.get_user(user_id)
@@ -33,13 +33,12 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
     profile_name = user[3]
     if user:
         command = message.text
-        if command == "Поддержать 💸":
+        if command == menu_txt_btns[3]:
             await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
 
             await Form.mainmenu.set()
 
-        elif command == "Расписание 📅":
-            # Логика для второй команды администратора
+        elif command == menu_txt_btns[2]:
 
             user_login = user[1]
             user_password = user[2]
@@ -54,7 +53,7 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
                 await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
             await Form.mainmenu.set()
             
-        elif command == "Оценки 📖":
+        elif command == menu_txt_btns[0]:
             # await handle_grades(message, state)
 
             await asyncio.sleep(2)
@@ -75,24 +74,7 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
                     
             await Form.mainmenu.set()
 
-        elif command == "Курсы 📅":
-        # Логика для второй команды администратора
-
-            user_login = user[1]
-            user_password = user[2]
-            group = user[7]
-            await message.answer("Функция в разработке, но вот все ваши предметы.")
-            path = f"lessons_data/{group}.json"
-
-            if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
-                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
-            else:
-                await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
-                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
-
-            await Form.mainmenu.set()
-
-        elif command == "Активность 🖊":
+        elif command == menu_txt_btns[1]:
             is_active = user[4]
             await message.answer("Функция в разработке. Ошибки не критические.")
             await asyncio.sleep(2)
@@ -103,7 +85,7 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
                 await message.answer("Бот статус не активен. Нажмите 'Старт' для начала активности.", reply_markup=buttons.start())
                 await activity.waiting.set()
 
-        elif command == "Помощь 🆘":
+        elif command == menu_txt_btns[4]:
             await message.answer("Поддержка: @porozhnyack")
             await Form.mainmenu.set()
     else:
@@ -119,7 +101,7 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
     user = await database.get_user(user_id)
     profile_name = user[3]
 
-    if command == "Оценки 📖":
+    if command == admmenu_txt_btns[0]:
         asyncio.sleep(2)
         await message.answer(f"Загружаю таблицу оценок пользователя: {profile_name}")
 
@@ -136,7 +118,8 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
             else:
                 await message.answer(result)
         await AdminForm.adminmenu.set()
-    elif command == "Активность 🖊":
+
+    elif command == admmenu_txt_btns[1]:
         is_active = user[4]
         if is_active == 1:
             await message.answer("Бот сейчас активен. Нажмите 'СТОП' для остановки активности.", reply_markup=buttons.stop())
@@ -145,7 +128,7 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
             await message.answer("Бот статус не активен. Нажмите 'Старт' для начала активности.", reply_markup=buttons.start())
             await activity.waiting.set()
 
-    elif command == "Расписание 📅":
+    elif command == admmenu_txt_btns[2]:
         # Логика для второй команды администратора
 
         user_login = user[1]
@@ -161,7 +144,8 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
             await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
 
         await AdminForm.adminmenu.set()
-    elif command == "Назначить старосту 👤":
+
+    elif command == admmenu_txt_btns[3]:
         # Логика для второй команды администратора
 
         groups = await database.get_unique_groups()
@@ -169,8 +153,10 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
         await message.answer("Функция в разработке. Но вот все зарегистрироанные группы.", reply_markup=buttons.all_groups(groups))
         await AdminForm.adminmenu.set()
 
-    elif command == "Поддержать 💸":
-        await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
+    elif command == admmenu_txt_btns[4]:
+
+        await message.answer("Меню в разработке.")
+        # await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
         await AdminForm.adminmenu.set()
     
 

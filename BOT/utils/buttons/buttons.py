@@ -1,4 +1,5 @@
 from aiogram import types
+from credit.config import admmenu_txt_btns, menu_txt_btns
 
 def create_profile_button():
     button = types.KeyboardButton(text="Мой профиль")
@@ -32,14 +33,14 @@ def authorization(name):
 def Mainmenu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     keyboard.row(
-        types.KeyboardButton(text="Оценки 📖"),
-        types.KeyboardButton(text="Активность 🖊")
+        types.KeyboardButton(text=menu_txt_btns[0]),
+        types.KeyboardButton(text=menu_txt_btns[1])
     )
     keyboard.row(
-        types.KeyboardButton(text="Курсы 📅"),
-        types.KeyboardButton(text="Поддержать 💸")
+        types.KeyboardButton(text=menu_txt_btns[2]),
+        types.KeyboardButton(text=menu_txt_btns[3])
     )
-    keyboard.add(types.KeyboardButton(text="Помощь 🆘"))
+    keyboard.add(types.KeyboardButton(text=menu_txt_btns[4]))
     return keyboard
 
 def donation_button():
@@ -64,14 +65,14 @@ def leadermenu():
 def adminmenu():
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
     keyboard.row(
-        types.KeyboardButton(text="Оценки 📖"),
-        types.KeyboardButton(text="Активность 🖊")
+        types.KeyboardButton(text=admmenu_txt_btns[0]),
+        types.KeyboardButton(text=admmenu_txt_btns[1])
     )
     keyboard.row(
-        types.KeyboardButton(text="Расписание 📅"),
-        types.KeyboardButton(text="Назначить старосту 👤")
+        types.KeyboardButton(text=admmenu_txt_btns[2]),
+        types.KeyboardButton(text=admmenu_txt_btns[3])
     )
-    keyboard.add(types.KeyboardButton(text="Поддержать 💸"))
+    keyboard.add(types.KeyboardButton(text=admmenu_txt_btns[4]))
     # keyboard.add(types.KeyboardButton(text="FAQ"))
     return keyboard
 

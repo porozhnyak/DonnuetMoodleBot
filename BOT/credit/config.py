@@ -19,3 +19,6 @@ TOKEN = os.getenv("TOKEN")
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot, storage=storage)
+
+admmenu_txt_btns = ["Оценки 📖", "Активность 🖊", "Курсы 📅", "Назначить старосту 👤", "Меню администратора 🔑"]
+menu_txt_btns = ["Оценки 📖", "Активность 🖊", "Курсы 📅", "Поддержать 💸", "Помощь 🆘"]

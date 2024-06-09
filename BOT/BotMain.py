@@ -14,6 +14,9 @@ from handlers.reg_hendler import get_password, get_login, confirm
 from handlers.start_hendler import start
 from handlers.mainmenu_hendler import handle_main_menu, handle_admin_commands
 
+from credit.config import admmenu_txt_btns
+from credit.config import menu_txt_btns
+
 
 dp.middleware.setup(LoggingMiddleware())
 
@@ -22,8 +25,8 @@ async def on_startup(dp):
     await database.init_db()
 
 dp.register_message_handler(start, commands=['start'], state="*")
-dp.register_message_handler(handle_main_menu,Text(equals=["Оценки 📖", "Активность 🖊", "Курсы 📅", "Поддержать 💸", "Помощь 🆘"], ignore_case=True), state=Form.mainmenu)
-dp.register_message_handler(handle_admin_commands, Text(equals=["Оценки 📖", "Назначить старосту 👤", "Расписание 📅", "Активность 🖊", "Поддержать 💸"],ignore_case=True), state=AdminForm.adminmenu)
+dp.register_message_handler(handle_main_menu,Text(equals=menu_txt_btns, ignore_case=True), state=Form.mainmenu)
+dp.register_message_handler(handle_admin_commands, Text(equals=admmenu_txt_btns, ignore_case=True), state=AdminForm.adminmenu)
 dp.register_message_handler(profile_selection)
 dp.register_message_handler(get_login, state=Form.login)
 dp.register_message_handler(get_password, state=Form.password)

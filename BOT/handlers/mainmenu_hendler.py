@@ -12,6 +12,12 @@ from utils.grades import all_grades_screen
 import os
 from aiogram.types import BotCommand, InputFile
 from utils.gtlesgrp import parse_page
+from credit.config import dp
+
+import logging
+
+# Создаем логгер
+logger = logging.getLogger(__name__)
 
 
 # В файле menu_handlers.py
@@ -146,12 +152,24 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
         await AdminForm.adminmenu.set()
 
     elif command == admmenu_txt_btns[3]:
-        # Логика для второй команды администратора
-
-        groups = await database.get_unique_groups()
+        try:
+            groups = await database.get_unique_groups()
         
-        await message.answer("Функция в разработке. Но вот все зарегистрироанные группы.", reply_markup=buttons.all_groups(groups))
-        await AdminForm.adminmenu.set()
+            keyboard = types.InlineKeyboardMarkup(row_width=1)
+            for group in groups:
+                button = types.InlineKeyboardButton(group, callback_data=f"group_{group}")
+                keyboard.add(button)
+
+            await message.answer("Выберите группу:", reply_markup=keyboard)
+
+
+        except Exception as e:
+            logger.exception("An error occurred in assign_leader_start function.")
+            await message.answer("Произошла ошибка при попытке назначить старосту. Пожалуйста, попробуйте позже.")
+
+        # groups = await database.get_unique_groups()
+        # await message.answer("Функция в разработке. Но вот все зарегистрироанные группы.", reply_markup=buttons.all_groups(groups))
+        # await AdminForm.adminmenu.set()
 
     elif command == admmenu_txt_btns[4]:
 

@@ -14,6 +14,7 @@ from handlers.reg_hendler import get_password, get_login, confirm
 from handlers.start_hendler import start
 from handlers.mainmenu_hendler import handle_main_menu, handle_admin_commands
 
+
 from credit.config import admmenu_txt_btns
 from credit.config import menu_txt_btns
 
@@ -31,8 +32,12 @@ dp.register_message_handler(profile_selection)
 dp.register_message_handler(get_login, state=Form.login)
 dp.register_message_handler(get_password, state=Form.password)
 dp.register_message_handler(confirm, state=Form.verification)
+
 dp.register_message_handler(startstop, lambda message: message.text in ['СТОП', 'Продолжить активность', 'Меню'], state=activity.waiting)
 
+# dp.register_message_handler(handle_admin_commands)
+# # dp.register_callback_query_handler(process_manual_group_entry, state=AdminForm.choose_group)
+# dp.register_callback_query_handler(process_user_choice,lambda callback_query: callback_query.data.startswith('user_'), state=AdminForm.choose_leader)
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True, on_startup=on_startup)

@@ -1,5 +1,5 @@
 venv/
 lessons_data/
 BOT/credit/.env
-
+BOT/credit/moodlebot.db
 

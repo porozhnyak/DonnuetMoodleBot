@@ -108,7 +108,7 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
     profile_name = user[3]
 
     if command == admmenu_txt_btns[0]:
-        asyncio.sleep(2)
+        await asyncio.sleep(2)
         await message.answer(f"Загружаю таблицу оценок пользователя: {profile_name}")
 
         user_id = str(message.from_user.id)
@@ -154,14 +154,16 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
     elif command == admmenu_txt_btns[3]:
         try:
             groups = await database.get_unique_groups()
-        
-            keyboard = types.InlineKeyboardMarkup(row_width=1)
-            for group in groups:
-                button = types.InlineKeyboardButton(group, callback_data=f"group_{group}")
-                keyboard.add(button)
+            logger.info(f"Groups retrieved: {groups}")
+            # keyboard = types.InlineKeyboardMarkup(row_width=1)
+            # for group in groups:
+            #     button = types.InlineKeyboardButton(group, callback_data=f"group_{group}")
+            #     keyboard.add(button)
 
-            await message.answer("Выберите группу:", reply_markup=keyboard)
+            await message.answer("Выберите группу:", reply_markup=buttons.all_groups(groups))
 
+            await AdminForm.choose_group.set()
+            logger.info("State AdminForm.chose_groop.set ")
 
         except Exception as e:
             logger.exception("An error occurred in assign_leader_start function.")

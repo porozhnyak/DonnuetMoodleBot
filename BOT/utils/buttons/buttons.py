@@ -96,7 +96,7 @@ def all_groups(groups):
     keyboard = types.InlineKeyboardMarkup(row_width=4)
     for group in groups:
         button_text = f"{group}"
-        button = types.InlineKeyboardButton(button_text, callback_data="ignore")
+        button = types.InlineKeyboardButton(button_text, callback_data=group)
         keyboard.insert(button)
     return keyboard
 

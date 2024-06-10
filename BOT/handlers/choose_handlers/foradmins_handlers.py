@@ -22,9 +22,9 @@ async def process_group_choice(callback_query: types.CallbackQuery, state: FSMCo
         users = await database.get_users_by_group(group_name)
         logger.info(f"Users in group {group_name}: {users}")
         
-        keyboard = InlineKeyboardMarkup(row_width=1)
+        keyboard = types.InlineKeyboardMarkup(row_width=1)
         for user in users:
-            button = InlineKeyboardButton(user[3], callback_data=f"user_{user[0]}")
+            button = types.InlineKeyboardButton(user[3], callback_data=f"user_{user[0]}")
             keyboard.add(button)
         
         await callback_query.message.edit_text("Выберите старосту из списка пользователей:", reply_markup=keyboard)
@@ -37,7 +37,7 @@ async def process_group_choice(callback_query: types.CallbackQuery, state: FSMCo
 @dp.callback_query_handler(state=AdminForm.choose_leader)
 async def process_user_choice(callback_query: types.CallbackQuery, state: FSMContext):
     try:
-        user_id = callback_query.data.split('_')[1]
+        user_id = callback_query.data
         data = await state.get_data()
         group_name = data.get('chosen_group')
         

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 
 
+
 log_url = "https://distant.donnuet.ru/login/index.php"
 profile_link = "https://distant.donnuet.ru/my/"
 grade_link = "https://distant.donnuet.ru/grade/report/overview/index.php"

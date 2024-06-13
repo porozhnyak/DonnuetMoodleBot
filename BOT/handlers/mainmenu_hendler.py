@@ -5,7 +5,7 @@ import database
 import asyncio
 from aiogram.dispatcher import FSMContext
 from utils.some_loop import some_loop
-from utils.buttons import buttons
+from utils.buttons import buttons, inlinebtns
 from states.activity_states import activity
 from aiogram.dispatcher.filters import Text
 from utils.grades import all_grades_screen
@@ -40,7 +40,7 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
     if user:
         command = message.text
         if command == menu_txt_btns[3]:
-            await message.answer("Буду благодарен за поддержку.", reply_markup=buttons.donation_button())
+            await message.answer("Буду благодарен за поддержку.", reply_markup=inlinebtns.donation_button())
 
             await Form.mainmenu.set()
 
@@ -53,10 +53,10 @@ async def handle_main_menu(message: types.Message, state: FSMContext):
             path = f"lessons_data/{group}.json"
 
             if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
-                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+                await message.answer(f"Курсы группы: {group}", reply_markup=inlinebtns.lessons_inline_buttons(path))
             else:
                 await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
-                await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+                await message.answer(f"Курсы группы: {group}", reply_markup=inlinebtns.lessons_inline_buttons(path))
             await Form.mainmenu.set()
             
         elif command == menu_txt_btns[0]:
@@ -144,10 +144,10 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
         path = f"lessons_data/{group}.json"
 
         if os.path.exists(path):  # Проверяем, существует ли файл по указанному пути
-            await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+            await message.answer(f"Курсы группы: {group}", reply_markup=inlinebtns.lessons_inline_buttons(path))
         else:
             await parse_page(user_login, user_password)  # Парсим страницу и сохраняем данные
-            await message.answer(f"Курсы группы: {group}", reply_markup=buttons.lessons_inline_buttons(path))
+            await message.answer(f"Курсы группы: {group}", reply_markup=inlinebtns.lessons_inline_buttons(path))
 
         await AdminForm.adminmenu.set()
 
@@ -160,7 +160,7 @@ async def handle_admin_commands(message: types.Message, state: FSMContext):
             #     button = types.InlineKeyboardButton(group, callback_data=f"group_{group}")
             #     keyboard.add(button)
 
-            await message.answer("Выберите группу:", reply_markup=buttons.all_groups(groups))
+            await message.answer("Выберите группу:", reply_markup=inlinebtns.all_groups(groups))
 
             await AdminForm.choose_group.set()
             logger.info("State AdminForm.chose_groop.set ")

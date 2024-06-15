@@ -87,6 +87,10 @@ async def ressles(user_login, user_password):
         lessons_link = await GetLessonsLink.GetLessonsLink(today, TimeNow)
         cookies = await login(user_login, user_password)
 
+        if lessons_link is None:
+            logger.error("No lessons link found for the given day and time.")
+            return "Уроки не найдены для текущего дня и времени."
+
         if cookies:
             async with aiohttp.ClientSession(cookies=cookies) as session:
                 async with session.get(lessons_link) as res:

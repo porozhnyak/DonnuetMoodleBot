@@ -27,9 +27,6 @@ async def startstop(message: types.Message):
         user = await database.get_user(user_id)
         profile_name = user[3]
 
-
-        await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.Mainmenu())
-
         if user[6] == 1:
             await message.answer(f"Меню профиля: {profile_name} 👤", reply_markup=buttons.adminmenu())
             await AdminForm.adminmenu.set()
